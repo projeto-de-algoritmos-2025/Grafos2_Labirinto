@@ -1,7 +1,7 @@
 
 # Grafos2_Labirinto
 
-**Conteúdo da Disciplina**: Grafos 1
+**Conteúdo da Disciplina**: Grafos 2
 
 ## Alunos
 | Matrícula   | Aluno                             |
@@ -21,12 +21,12 @@ Certifique-se de ter o Python instalado (versão 3.6 ou superior) e o `pip` para
 
 1. Clone este repositório:
    ```bash
-   git clone https://github.com/projeto-de-algoritmos-2025/Grafos1_LabirintoPrimKruskal.git
+   git clone https://github.com/projeto-de-algoritmos-2025/Grafos2_Labirinto.git
    ```
 
 2. Acesse o diretório do projeto:
    ```bash
-   cd Grafos1_LabirintoPrimKruskal
+   cd Grafos2_Labirinto
    ```
 
 3. Instale as dependências necessárias:
