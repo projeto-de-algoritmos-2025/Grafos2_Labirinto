@@ -33,7 +33,6 @@ INVERSO = {
     "DIREITA": "ESQUERDA"
 }
 
-# Classe para a criação das celulas 
 class Celula:
     def __init__(self, x, y):
         self.x = x
@@ -54,7 +53,7 @@ class Celula:
         if self.paredes["DIREITA"]:
             pygame.draw.line(tela, BRANCO, (x + TAMANHO_CELULA, y), (x + TAMANHO_CELULA, y + TAMANHO_CELULA))
 
-# Funções de união (Kruskal)
+
 def encontrar(celula):
     if celula.pai != celula:
         celula.pai = encontrar(celula.pai)
@@ -118,5 +117,45 @@ def criar_labirinto_kruskal():
             grade[x][y].paredes[direcao] = False
             grade[nx][ny].paredes[INVERSO[direcao]] = False
     return grade
+
+def desenhar_labirinto(grade, jogador, partida, chegada):
+    TELA.fill(PRETO)
+    for coluna in grade:
+        for celula in coluna:
+            celula.desenhar(TELA)
+
+    
+    px, py = partida[0] * TAMANHO_CELULA + TAMANHO_CELULA // 4, partida[1] * TAMANHO_CELULA + TAMANHO_CELULA // 4
+    pygame.draw.rect(TELA, AZUL, (px, py, TAMANHO_CELULA // 2, TAMANHO_CELULA // 2))
+
+    
+    cx, cy = chegada[0] * TAMANHO_CELULA + TAMANHO_CELULA // 4, chegada[1] * TAMANHO_CELULA + TAMANHO_CELULA // 4
+    pygame.draw.rect(TELA, VERDE, (cx, cy, TAMANHO_CELULA // 2, TAMANHO_CELULA // 2))
+
+    
+    jx, jy = jogador[0] * TAMANHO_CELULA + TAMANHO_CELULA // 4, jogador[1] * TAMANHO_CELULA + TAMANHO_CELULA // 4
+    pygame.draw.rect(TELA, VERDE, (jx, jy, TAMANHO_CELULA // 2, TAMANHO_CELULA // 2))
+
+    pygame.display.update()
+
+def mover(jogador, direcao, grade):
+    x, y = jogador
+    dx, dy = DIRECOES[direcao]
+    celula = grade[x][y]
+
+    if not celula.paredes[direcao]:
+        nx, ny = x + dx, y + dy
+        if 0 <= nx < COLUNAS and 0 <= ny < LINHAS:
+            return [nx, ny]
+    return jogador
+
+
+def mostrar_mensagem(texto, delay=2000):
+    fonte = pygame.font.SysFont(None, 30)
+    mensagem = fonte.render(texto, True, AZUL)
+    rect = mensagem.get_rect(center=(LARGURA // 2, ALTURA // 2))
+    TELA.blit(mensagem, rect)
+    pygame.display.update()
+    pygame.time.delay(delay)
 
 
