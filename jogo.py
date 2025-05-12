@@ -158,4 +158,54 @@ def mostrar_mensagem(texto, delay=2000):
     pygame.display.update()
     pygame.time.delay(delay)
 
+def jogo(algoritmo):
+    grade = criar_labirinto_prim() if algoritmo == "prim" else criar_labirinto_kruskal()
+    jogador = [0, 0]
+    partida = [0, 0]
+    chegada = [COLUNAS - 1, LINHAS - 1]
 
+    rodando = True
+    while rodando:
+        pygame.time.delay(100)
+        desenhar_labirinto(grade, jogador, partida, chegada)
+
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_UP:
+                    jogador = mover(jogador, "CIMA", grade)
+                elif evento.key == pygame.K_DOWN:
+                    jogador = mover(jogador, "BAIXO", grade)
+                elif evento.key == pygame.K_LEFT:
+                    jogador = mover(jogador, "ESQUERDA", grade)
+                elif evento.key == pygame.K_RIGHT:
+                    jogador = mover(jogador, "DIREITA", grade)
+
+        if jogador == chegada:
+            mostrar_mensagem("Você venceu!")
+            return
+
+# Menu de seleção
+def menu():
+    while True:
+        TELA.fill(PRETO)
+        fonte = pygame.font.SysFont(None, 30)
+        texto1 = fonte.render("Pressione P para jogar com Prim", True, BRANCO)
+        texto2 = fonte.render("Pressione K para jogar com Kruskal", True, BRANCO)
+        TELA.blit(texto1, (50, ALTURA // 2 - 40))
+        TELA.blit(texto2, (50, ALTURA // 2 + 10))
+        pygame.display.update()
+
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_p:
+                    jogo("prim")
+                elif evento.key == pygame.K_k:
+                    jogo("kruskal")
+
+menu()
